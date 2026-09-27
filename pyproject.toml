@@ -1,0 +1,23 @@
+[project]
+name = "cforge"
+version = "0.1.0"
+description = "A CLI tool for quickly creating clean C project structures."
+readme = "README.md"
+authors = [
+    { name = "FariedY", email = "farriedy@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+# [project.scripts]
+# cforge = "cforge:main"
+[project.scripts]
+cforge = "main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
+
+[build]
+build-tool = "makefile"
+
