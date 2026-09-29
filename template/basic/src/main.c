@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-int main(int argc, char *argv[]) {
-  printf("Hello, from <project name>");
-
-  return 0;
+int main(void) {
+    printf("Hello, World!\n");
+    return 0;
 }

@@ -3,7 +3,11 @@ from .generator import create_project
 
 
 def create_command(args):
-    create_project(name=args.name, build_tool=args.build_tool, template=args.template)
+    # maybe try to saperate the function
+    if args.build_tool:
+        create_project(name=args.name, build_tool=args.build_tool)
+    else:
+        create_project(name=args.name, template=args.template)
 
 
 """ CForge """
@@ -13,17 +17,17 @@ parser = argparse.ArgumentParser(
     usage="cforge.exe <COMMAND> [OPTION] {VALUE}",
 )
 
-# group = parser.mutually_exclusive_group()
+group = parser.add_mutually_exclusive_group()
 
 """ Arguments """
 parser.add_argument("name", help="Initialize a new project")
-parser.add_argument(
+group.add_argument(
     "-b",
     "--build-tool",
     choices=["build.ninja", "Makefile"],
     help="Specify Build-Tool",
 )
-parser.add_argument("-t", "--template", choices=["raylib", ""], help="Use a template")
+group.add_argument("-t", "--template", choices=["raylib", ""], help="Use a template")
 
 parser.set_defaults(func=create_command)
 

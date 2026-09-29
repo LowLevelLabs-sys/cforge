@@ -1,0 +1,20 @@
+builddir = build
+cc = clang
+cflags = -Wall -Wextra -Wpedantic -std=c11 -Iinclude
+ldflags =
+
+rule cc
+  command = $cc -MD -MF $out.d $cflags -c $in -o $out
+  depfile = $out.d
+  deps = gcc
+  description = CC $in
+
+rule link
+  command = $cc $in -o $out $ldflags
+  description = LINK $out
+
+build $builddir/main.o: cc src/main.c
+build $builddir/main.exe: link $builddir/main.o
+build $builddir/main: link $builddir/main.o
+
+default $builddir/main

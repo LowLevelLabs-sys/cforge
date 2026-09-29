@@ -1,0 +1,22 @@
+# Object and dependency files
+*.o
+*.obj
+*.d
+
+# Build outputs
+build/
+bin/
+*.exe
+*.out
+
+# Ninja logs
+.ninja_log
+.ninja_deps
+
+# IDEs & Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
