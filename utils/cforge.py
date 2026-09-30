@@ -3,7 +3,6 @@ from .generator import create_project
 
 
 def create_command(args):
-    # maybe try to saperate the function
     if args.build_tool:
         create_project(name=args.name, build_tool=args.build_tool)
     else:
@@ -27,7 +26,7 @@ group.add_argument(
     choices=["build.ninja", "Makefile"],
     help="Specify Build-Tool",
 )
-group.add_argument("-t", "--template", choices=["raylib", ""], help="Use a template")
+group.add_argument("-t", "--template", choices=["raylib"], help="Use a template")
 
 parser.set_defaults(func=create_command)
 
@@ -45,5 +44,5 @@ subparser = parser.add_subparsers(dest="command")
 def cforge_main():
     args = parser.parse_args()
 
-    # jalankan semua function
+    # run all the function
     args.func(args)

@@ -1,38 +1,26 @@
-import shutil
 from pathlib import Path
 import tomllib
+from .blueprint import create_project_from_blueprint
 
 """Load toml data from file"""
 TOML_PATH = Path(__file__).parent / ".." / "pyproject.toml"
 with open(TOML_PATH, "rb") as f:
     TOML_DATA = tomllib.load(f)
 
-TOOL_PATH = Path(__file__).parent / ".." / "template"
-
 
 def create_project(name=".", build_tool=None, template=None):
     current_path = Path().cwd() / name
+    project_name = Path(name).name if name != "." else Path().cwd().name
 
-    if template is not None:
-        print("generate template!")
-        shutil.copytree(
-            TOOL_PATH / template,
-            current_path,
-            dirs_exist_ok=True,
-        )
-    else:
-        build_tools = ["Makefile", "build.ninja"]
-        # select tool from .toml if build_tool argument is None
-        selected = (
-            TOML_DATA["build"]["build-tool"] if build_tool is None else build_tool
-        )
-        # selected = build_tools or TOML_DATA["build"]["build_tool"]
+    selected_build = (
+        build_tool or TOML_DATA.get("build", {}).get("build-tool", "Makefile")
+    )
+    selected_template = template or "basic"
 
-        # append tool that is not in the selected (ignore the un-selected tool)
-        ignored = [tool for tool in build_tools if tool.lower() != selected.lower()]
-        shutil.copytree(
-            TOOL_PATH / "basic",
-            current_path,
-            ignore=shutil.ignore_patterns(*ignored),
-            dirs_exist_ok=True,
-        )
+    return create_project_from_blueprint(
+        project_name=project_name,
+        template_name=selected_template,
+        build=selected_build,
+        target_dir=current_path,
+        verbose=True,
+    )
